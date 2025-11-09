@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuários</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f6f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            width: 80%;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .action-btns form {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Gerenciamento de Usuários</h1>
+</header>
+
+<main>
+    <!-- Formulário para criar novo usuário -->
+    <form action="{{ url_for('create') }}" method="POST">
+        <input type="text" name="name" placeholder="Digite o nome" required>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <!-- Tabela de usuários -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in data %}
+            <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[1] }}</td>
+                <td class="action-btns">
+                    <!-- Formulário de atualização -->
+                    <form action="{{ url_for('update') }}" method="POST">
+                        <input type="hidden" name="id" value="{{ user[0] }}">
+                        <input type="text" name="name" value="{{ user[1] }}" required>
+                        <button type="submit">Atualizar</button>
+                    </form>
+
+                    <!-- Formulário de exclusão -->
+                    <form action="{{ url_for('delete') }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');">
+                        <input type="hidden" name="id" value="{{ user[0] }}">
+                        <button type="submit" style="background-color: #dc3545;">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+</body>
+</html>
