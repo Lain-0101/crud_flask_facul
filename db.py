@@ -1,6 +1,6 @@
 import psycopg2
 
-conn = psycopg2.connect(database="flask_db", host="localhost", user="postgres", password="1234", port="5432")
+conn = psycopg2.connect(database="flask_db", host="localhost", user="postgres", password="0000", port="5432")
 cursor = conn.cursor()
 
 cursor.execute('''CREATE TABLE USERS (ID SERIAL PRIMARY KEY, NAME VARCHAR);''')
